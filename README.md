@@ -9,7 +9,7 @@ Server. To use this Tool there are a few prerequisites:
 # Installation
 
 1. Install the latest Version of [NodeJS](https://nodejs.org/en/download)
-2. Download the latest Executable from the Releases Page for your Operating System
+2. Download the latest Executable from the [Releases Page](https://github.com/GERJanB/FSServerModDownloader/releases/) for your Operating System
 3. Put it in whatever Directory you want to
 4. In the same Directory as the Executable create a File called `config.json`
 5. Open the File with your Editor of choice and insert the following JSON into it and replace the values with your own:
