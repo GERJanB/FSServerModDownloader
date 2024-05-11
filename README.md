@@ -21,7 +21,8 @@ Server. To use this Tool there are a few prerequisites:
         "user": "exampleUser",
         "password": "examplePassword"
     },
-    "modsDirectory": "path/to/your/ModDirectory"
+    "modsDirectory": "path/to/your/ModDirectory",
+    "serverModsDirectory": "path/to/server/mods"
 }
 ```
 Disclaimer: If you are on Windows your Path should look something like this `C:\\User\\Documents\\My Games\\FarmingSimulator22\\mods`.
