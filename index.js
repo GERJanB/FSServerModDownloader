@@ -1,8 +1,9 @@
 const ftp = require("basic-ftp");
 const fs = require("fs");
 
-const { ftpConfig } = JSON.parse(fs.readFileSync("config.json"))
-const { modsDirectory } = JSON.parse(fs.readFileSync("config.json"))
+const rawJson = JSON.parse(fs.readFileSync("config.json"));
+
+const { ftpConfig, modsDirectory, serverModsDirectory } = rawJson
 
 const Client = new ftp.Client();
 Client.ftp.verbose = false;
@@ -13,7 +14,7 @@ const setup = async () => {
 
 const getModsList = async () => {
     try {
-        await Client.cd("profile/mods");
+        await Client.cd(serverModsDirectory);
         const mods = await Client.list();
         const names = mods.map(fileInfo => fileInfo.name);
         return names;
