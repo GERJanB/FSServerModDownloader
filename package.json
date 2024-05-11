@@ -1,0 +1,23 @@
+{
+  "name": "moddownloader",
+  "version": "1.0.0",
+  "description": "Download Mods from a GIANTS Dedicated Server using FTP",
+  "main": "index.js",
+  "bin": "index.js",
+  "scripts": {
+    "start": "index.js"
+  },
+  "author": "Jan Budde",
+  "license": "MIT",
+  "dependencies": {
+    "basic-ftp": "^5.0.5"
+  },
+  "pkg": {
+    "scripts": "index.js",
+    "targets": [
+      "latest-linux-x64",
+      "latest-win-x64"
+    ],
+    "outputPath": "dist"
+  }
+}
