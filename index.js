@@ -34,7 +34,7 @@ const createExampleConfig = () => {
 
 const setup = async () => {
     if(process.platform === "win32") {
-        userConfigDirectory = path.join(process.env.APPDATA, "moddownloader");
+        userConfigDirectory = path.join(process.env.LOCALAPPDATA, "moddownloader");
     } else {
         userConfigDirectory = path.join(os.homedir(), '.config', "moddownloader");
     }
