@@ -2,7 +2,6 @@ const ftp = require("basic-ftp");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { exit } = require("process");
 
 let userConfigDirectory;
 let modsDirectory;
@@ -11,7 +10,7 @@ let serverModsDirectory;
 const Client = new ftp.Client();
 Client.ftp.verbose = false;
 
-const createExampleConfig = async () => {
+const createExampleConfig = () => {
     const exampleConfig = {
         ftpConfig: {
             host: "example.url",
@@ -24,7 +23,10 @@ const createExampleConfig = async () => {
     };
 
     try {
-        fs.writeFile(path.join(userConfigDirectory, "config.json"));
+        fs.writeFileSync(path.join(userConfigDirectory, "config.json"), JSON.stringify(exampleConfig, null, 2), (err) => {
+            console.error(err);
+        });
+        console.log(`Example Config created at ${userConfigDirectory} \n`)
     } catch(err) {
         console.error(err);
     }
@@ -40,20 +42,22 @@ const setup = async () => {
     if(!fs.existsSync(userConfigDirectory)) {
         fs.mkdirSync(userConfigDirectory, { recursive: true });
 
-        await createExampleConfig();
+        createExampleConfig();
 
-        console.log(`Example Config created at ${userConfigDirectory} \n`)
-        exit;
+        process.exit();
+    } else {
+
+        if (!fs.existsSync(path.join(userConfigDirectory, "config.json"))) {
+            createExampleConfig();
+            process.exit();
+        }
+
+        const rawJson = JSON.parse(fs.readFileSync(path.join(userConfigDirectory, 'config.json')));
+        const { ftpConfig } = rawJson;
+        ({ modsDirectory, serverModsDirectory } = rawJson);
+
+        await Client.access(ftpConfig);
     }
-
-
-    const rawJson = JSON.parse(fs.readFileSync(path.join(userConfigDirectory, 'config.json')));
-
-    const { ftpConfig } = rawJson;
-
-    ({ modsDirectory, serverModsDirectory } = rawJson);
-
-    await Client.access(ftpConfig);
 }
 
 const getModsList = async () => {
