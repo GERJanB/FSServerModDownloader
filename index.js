@@ -1,8 +1,21 @@
 const ftp = require("basic-ftp");
 const fs = require("fs");
+const os = require("os");
+const path = require("path");
 
-const rawJson = JSON.parse(fs.readFileSync("config.json"));
+let userConfigDirectory;
+if(process.platform === "win32") {
+    userConfigDirectory = path.join(process.env.APPDATA, "moddownloader");
+} else {
+    userConfigDirectory = path.join(os.homedir(), '.config', "moddownloader");
+}
 
+if(!fs.existsSync(userConfigDirectory)) {
+    fs.mkdirSync(userConfigDirectory, { recursive: true });
+}
+
+
+const rawJson = JSON.parse(fs.readFileSync(path.join(userConfigDirectory, 'config.json')));
 const { ftpConfig, modsDirectory, serverModsDirectory } = rawJson
 
 const Client = new ftp.Client();
