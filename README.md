@@ -6,13 +6,12 @@ Server. To use this Tool there are a few prerequisites:
 2. You must have Read Access to the Mods Directory on the Server
 3. Currently only Linux and Windows are supported
 
-## Installation
+## Installation <a name="install" />
 
-1. Install the latest Version of [NodeJS](https://nodejs.org/en/download)
-2. Download the latest Executable from the [Releases Page](https://github.com/GERJanB/FSServerModDownloader/releases/) for your Operating System
-3. Put it in whatever Directory you want to
-4. In the same Directory as the Executable create a File called `config.json`
-5. Open the File with your Editor of choice and insert the following JSON into it and replace the values with your own:
+1. Download the latest Executable from the [Releases Page](https://github.com/GERJanB/FSServerModDownloader/releases/) for your Operating System
+2. Put it in whatever Directory you want to
+3. Run the Application once to create an example config. On Linux this should be `~/.config/moddownloader`. On Windows it should be in `%LOCALAPPDATA%\moddownloader`.
+4. Open the File with your Editor of choice. It should look like this. Replace the example Values with your actual FTP Data and Paths.
 
 ```json
 { 
@@ -29,7 +28,7 @@ Server. To use this Tool there are a few prerequisites:
 Disclaimer: If you are on Windows your Path should look something like this `C:\\User\\Documents\\My Games\\FarmingSimulator22\\mods`.
 Note the double Backslash as this is how you have to write your Path in the `config.json`.
 
-6. Now all you need to do is run the Programm and it should automatically download all Mods from the Server that are 
+5. Now all you need to do is run the Programm and it should automatically download all Mods from the Server that are 
 missing from your local Mods Directory
 
 ## Build from Source
@@ -38,7 +37,7 @@ If you just want to run the Application without installing follow these Steps:
 1. Install the latest Version of [NodeJS](https://nodejs.org/en/download)
 2. Clone the Repository
 3. Inside of the Directory run `node index.js`
-4. Put you `config.json` in the same directory as the index.js
+4. Edit the create config.json as explained in [Step 4 of the Installation](#install)
 
 If you want to create your own Binary follow these Steps:
 
