@@ -2,26 +2,57 @@ const ftp = require("basic-ftp");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
+const { exit } = require("process");
 
 let userConfigDirectory;
-if(process.platform === "win32") {
-    userConfigDirectory = path.join(process.env.APPDATA, "moddownloader");
-} else {
-    userConfigDirectory = path.join(os.homedir(), '.config', "moddownloader");
-}
-
-if(!fs.existsSync(userConfigDirectory)) {
-    fs.mkdirSync(userConfigDirectory, { recursive: true });
-}
-
-
-const rawJson = JSON.parse(fs.readFileSync(path.join(userConfigDirectory, 'config.json')));
-const { ftpConfig, modsDirectory, serverModsDirectory } = rawJson
+let modsDirectory;
+let serverModsDirectory;
 
 const Client = new ftp.Client();
 Client.ftp.verbose = false;
 
+const createExampleConfig = async () => {
+    const exampleConfig = {
+        ftpConfig: {
+            host: "example.url",
+            port: "1234",
+            user: "exampleUser",
+            password: "examplePassword"
+        },
+        modsDirectory: "path/to/your/ModDirectory",
+        serverModsDirectory: "path/to/server/mods"
+    };
+
+    try {
+        fs.writeFile(path.join(userConfigDirectory, "config.json"));
+    } catch(err) {
+        console.error(err);
+    }
+}
+
 const setup = async () => {
+    if(process.platform === "win32") {
+        userConfigDirectory = path.join(process.env.APPDATA, "moddownloader");
+    } else {
+        userConfigDirectory = path.join(os.homedir(), '.config', "moddownloader");
+    }
+
+    if(!fs.existsSync(userConfigDirectory)) {
+        fs.mkdirSync(userConfigDirectory, { recursive: true });
+
+        await createExampleConfig();
+
+        console.log(`Example Config created at ${userConfigDirectory} \n`)
+        exit;
+    }
+
+
+    const rawJson = JSON.parse(fs.readFileSync(path.join(userConfigDirectory, 'config.json')));
+
+    const { ftpConfig } = rawJson;
+
+    ({ modsDirectory, serverModsDirectory } = rawJson);
+
     await Client.access(ftpConfig);
 }
 
